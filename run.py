@@ -93,6 +93,17 @@ def cmd_dashboard(cfg, args):
         pass
 
 
+def cmd_enrich(cfg, args):
+    from agents.orchestrator import Orchestrator
+    orch = Orchestrator(cfg)
+    try:
+        tagged = orch.enrich_subcategories()
+    finally:
+        orch.close()
+    total = sum(tagged.values())
+    print(f"\nSub-category enrichment complete: {total} product tags across {len(tagged)} sub-categories.")
+
+
 def main():
     ap = argparse.ArgumentParser(description="Woolworths Intelligence")
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -109,6 +120,9 @@ def main():
     ep = sub.add_parser("export", help="export CSVs")
     ep.add_argument("--dir", default=None)
     ep.set_defaults(func=cmd_export)
+
+    enp = sub.add_parser("enrich", help="discover + tag sub-categories")
+    enp.set_defaults(func=cmd_enrich)
 
     dp = sub.add_parser("dashboard", help="serve the dashboard")
     dp.add_argument("--db", default=None)

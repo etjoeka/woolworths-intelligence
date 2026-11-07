@@ -1,6 +1,6 @@
 :root {
-  --red: #e4002b;
-  --red-dark: #b50022;
+  --brand: #78be20;
+  --brand-dark: #00843d;
   --ink: #1a1a1a;
   --muted: #6b6b6b;
   --bg: #f6f6f4;
@@ -19,18 +19,18 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-a { color: var(--red); text-decoration: none; }
+a { color: var(--brand); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
 .topbar {
   display: flex; align-items: center; justify-content: space-between;
   gap: 16px; padding: 18px 24px;
   background: linear-gradient(90deg, #fff, #fff);
-  border-bottom: 3px solid var(--red);
+  border-bottom: 3px solid var(--brand);
   position: sticky; top: 0; z-index: 5;
 }
 .brand { display: flex; align-items: center; gap: 12px; }
-.brand-dot { width: 14px; height: 14px; border-radius: 50%; background: var(--red); box-shadow: 0 0 0 4px #fbd5dc; }
+.brand-dot { width: 14px; height: 14px; border-radius: 50%; background: var(--brand); box-shadow: 0 0 0 4px #e3f2d1; }
 .topbar h1 { margin: 0; font-size: 20px; letter-spacing: -0.3px; }
 .subtitle { margin: 2px 0 0; color: var(--muted); font-size: 13px; }
 .meta { color: var(--muted); font-size: 12px; text-align: right; }
@@ -50,7 +50,7 @@ a:hover { text-decoration: underline; }
 .charts-note {
   margin: 0 0 8px; font-size: 12px; color: var(--muted);
 }
-.charts-note strong { color: var(--red); }
+.charts-note strong { color: var(--brand); }
 .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
 .card {
   background: var(--card); border: 1px solid var(--line); border-radius: 12px;
@@ -78,7 +78,7 @@ td.prod { max-width: 380px; white-space: normal; }
 .was { color: var(--muted); text-decoration: line-through; }
 .now { font-weight: 600; }
 .badge { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; }
-.badge.special { background: #fde3e8; color: var(--red-dark); }
+.badge.special { background: #eaf5dd; color: var(--brand-dark); }
 .badge.half { background: #ffe9c9; color: var(--amber); }
 .badge.multi { background: #e3f2fd; color: #1565c0; }
 .badge.regular { background: #eef0ee; color: var(--muted); }
@@ -93,7 +93,7 @@ td.prod { max-width: 380px; white-space: normal; }
   font-size: 13px; cursor: pointer; color: var(--ink);
 }
 .pager button:disabled { opacity: 0.4; cursor: default; }
-.pager button:not(:disabled):hover { border-color: var(--red); color: var(--red); }
+.pager button:not(:disabled):hover { border-color: var(--brand); color: var(--brand); }
 #pager-info { color: var(--muted); font-size: 13px; }
 
 .foot { padding: 16px 24px; color: var(--muted); font-size: 12px; border-top: 1px solid var(--line); background: #fff; }

@@ -8,7 +8,7 @@
   const fmt$ = (v) => (v == null ? "—" : "$" + Number(v).toFixed(2));
   const fmtPct = (v) => (v == null ? "—" : Number(v).toFixed(0) + "%");
 
-  const RED = "#e4002b", palette = ["#e4002b", "#ff6b81", "#2f6fed", "#0a7a3d",
+  const GREEN = "#78be20", palette = ["#78be20", "#9ccc65", "#2f6fed", "#0a7a3d",
     "#b7791f", "#8e44ad", "#16a085", "#e67e22", "#3498db", "#7f8c8d",
     "#c0392b", "#f39c12", "#1abc9c", "#9b59b6"];
 
@@ -166,7 +166,7 @@
       type: "bar",
       data: { labels: d.histogram.map(h => h.label),
               datasets: [{ label: "SKUs", data: d.histogram.map(h => h.count),
-                           backgroundColor: RED, borderRadius: 4 }] },
+                           backgroundColor: GREEN, borderRadius: 4 }] },
       options: { plugins: { legend: { display: false } },
                  scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } },
     });
@@ -183,7 +183,7 @@
       type: "bar",
       data: { labels: subs.map(x => x.name),
               datasets: [
-                { label: "SKUs", data: subs.map(x => x.skus), backgroundColor: RED, borderRadius: 3 },
+                { label: "SKUs", data: subs.map(x => x.skus), backgroundColor: GREEN, borderRadius: 3 },
                 { label: "Avg price ($)", data: subs.map(x => x.avg_price),
                   backgroundColor: "#2f6fed", borderRadius: 3, yAxisID: "y1" }] },
       options: { indexAxis: "y",

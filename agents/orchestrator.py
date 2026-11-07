@@ -170,6 +170,51 @@ class Orchestrator:
                 time.sleep(self.cfg["scraper"]["rate_limit"]["delay_between_categories_seconds"])
         return reports
 
+    def enrich_subcategories(self) -> dict:
+        """Discover Woolworths sub-categories and tag products with them."""
+        import html as html_mod
+        from woolworths_intel.discovery import discover_subcategories
+
+        s = self.cfg["scraper"]
+        base = s["base_url"]
+        page_size = s["page_size"]
+        exclude_market = bool(s.get("exclude_marketplace", False))
+        stall = int(s.get("subcat_stall_pages", 25))
+        max_pages = int(s.get("subcat_max_pages", 120))
+        delay = s["rate_limit"]["delay_between_pages_seconds"]
+
+        tree = discover_subcategories()
+        tagged = {}
+        for cat in self.cfg["categories"]:
+            subs = [(html_mod.unescape(n), node) for (n, node) in tree.get(cat["slug"], [])
+                    if "special" not in n.lower() and "everyday market" not in n.lower()]
+            log.info("[Enrich] %s: %d sub-categories", cat["name"], len(subs))
+            for sub_name, node in subs:
+                seen: set[str] = set()
+                page = 1
+                no_new = 0
+                while page <= max_pages:
+                    data = self.fetcher.fetch_category_page(node, page, page_size, cat["url_path"])
+                    products, _ = parse_category_page(data, cat["name"], sub_name, page, base,
+                                                      exclude_market=exclude_market)
+                    new = 0
+                    for p in products:
+                        if p.sku_id not in seen:
+                            seen.add(p.sku_id)
+                            new += 1
+                            self.db.set_subcategory_if_null(p.sku_id, sub_name)
+                    if new == 0:
+                        no_new += 1
+                        if no_new >= stall:
+                            break
+                    else:
+                        no_new = 0
+                    page += 1
+                    time.sleep(delay)
+                tagged[f"{cat['name']}/{sub_name}"] = len(seen)
+                log.info("[Enrich] %s / %s: tagged %d products", cat["name"], sub_name, len(seen))
+        return tagged
+
     def close(self) -> None:
         self.fetcher.close()
         self.db.close()

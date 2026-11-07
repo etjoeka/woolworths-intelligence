@@ -154,6 +154,14 @@ class Database:
                     list(memberships),
                 )
 
+    def set_subcategory_if_null(self, sku_id: str, subcategory: str) -> None:
+        """Tag a product's sub-category only if not already set."""
+        with self._lock:
+            with self.conn:  # commit each tag immediately
+                self.conn.execute(
+                    "UPDATE products SET subcategory = ? WHERE sku_id = ? AND subcategory IS NULL",
+                    (subcategory, sku_id))
+
     def record_run(self, slug: str, started_at: str, finished_at: str,
                    pages_crawled: int, products_found: int,
                    total_expected: Optional[int]) -> None:

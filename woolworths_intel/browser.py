@@ -173,6 +173,32 @@ class ChromeMinter:
             log.warning("No Imperva cookies observed; challenge may not have cleared.")
         return cookies
 
+    def navigate_and_get_html(self, url: str, settle_timeout: float = 120.0) -> str:
+        """Navigate to ``url`` and return the fully-rendered page HTML."""
+        if self.proc is None or self.port is None:
+            self.start()
+        tabs = [t for t in _http_json(f"http://127.0.0.1:{self.port}/json")
+                if t.get("type") == "page"]
+        if not tabs:
+            raise RuntimeError("No page target available from Chrome")
+        cdp = CdpClient(tabs[0]["webSocketDebuggerUrl"])
+        try:
+            cdp.cmd("Page.enable")
+            cdp.cmd("Runtime.enable")
+            cdp.cmd("Network.enable")
+            if self.user_agent:
+                cdp.cmd("Network.setUserAgentOverride", {
+                    "userAgent": self.user_agent,
+                    "acceptLanguage": "en-AU,en;q=0.9",
+                    "platform": "macOS",
+                })
+            cdp.cmd("Page.navigate", {"url": url})
+            self._wait_for_selector(cdp, "main, header", settle_timeout)
+            time.sleep(6)  # let client-side category tiles finish rendering
+            return cdp.evaluate("document.documentElement.innerHTML") or ""
+        finally:
+            cdp.close()
+
     @staticmethod
     def _wait_for_selector(cdp: CdpClient, selector: str, timeout: float) -> None:
         deadline = time.time() + timeout
