@@ -1,0 +1,7 @@
+# Coles Intelligence — Python dependencies
+# (Python 3.11+; the bundled .venv is created with --system-site-packages)
+requests>=2.31
+beautifulsoup4>=4.12
+websocket-client>=1.7
+charset-normalizer>=3.0
+pyyaml>=6.0

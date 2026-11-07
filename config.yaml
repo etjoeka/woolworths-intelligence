@@ -1,0 +1,52 @@
+# Woolworths Intelligence — configuration
+
+scraper:
+  base_url: "https://www.woolworths.com.au"
+  page_size: 36            # products per API page
+  user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36"
+
+  # Akamai bot protection: solve once in headless Chrome, reuse the cookies.
+  browser:
+    headless: true
+    settle_selector: "main, header"
+    settle_timeout_seconds: 120
+    cookie_ttl_seconds: 7200
+
+  rate_limit:
+    delay_between_pages_seconds: 0.4
+    delay_between_categories_seconds: 1.0
+    max_retries: 4
+    backoff_base_seconds: 5.0
+
+  max_pages_per_category: 1200
+  # Exclude "Everyday Market" (third-party) products so only Woolworths
+  # Supermarkets products are captured (esp. important for Pet).
+  exclude_marketplace: true
+  # When marketplace is excluded, stop after this many consecutive pages with no
+  # new (non-market) products — the market products fill pagination otherwise.
+  stall_pages: 60
+  crawl_subcategories: true
+
+categories:
+  - slug: freezer
+    name: "Freezer"
+    node_id: "1_ACA2FC2"
+    url_path: "/shop/browse/freezer"
+  - slug: pantry
+    name: "Pantry"
+    node_id: "1_39FD49C"
+    url_path: "/shop/browse/pantry"
+  - slug: pet
+    name: "Pet"
+    node_id: "1_61D6FEB"
+    url_path: "/shop/browse/pet"
+
+storage:
+  db_path: "data/woolworths.db"
+  cookie_cache: "data/cookies.json"
+  export_dir: "data/exports"
+  keep_raw_json: false
+
+dashboard:
+  host: "127.0.0.1"
+  port: 8780

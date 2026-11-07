@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Woolworths Intelligence — Freezer, Pantry &amp; Pet</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-dot"></span>
+      <div>
+        <h1>Woolworths Intelligence</h1>
+        <p class="subtitle" id="subtitle">Retail pricing &amp; promotional activity — All aisles</p>
+      </div>
+    </div>
+    <div class="meta" id="meta">—</div>
+  </header>
+
+  <section class="kpis" id="kpis">
+    <div class="kpi"><span class="kpi-label">SKUs tracked</span><span class="kpi-value" id="kpi-skus">—</span></div>
+    <div class="kpi"><span class="kpi-label">On special</span><span class="kpi-value" id="kpi-special">—</span></div>
+    <div class="kpi"><span class="kpi-label">Avg. price</span><span class="kpi-value" id="kpi-avg">—</span></div>
+    <div class="kpi"><span class="kpi-label">Sub-categories</span><span class="kpi-value" id="kpi-subs">—</span></div>
+    <div class="kpi"><span class="kpi-label">Brands</span><span class="kpi-value" id="kpi-brands">—</span></div>
+    <div class="kpi"><span class="kpi-label">Total savings on specials</span><span class="kpi-value" id="kpi-savings">—</span></div>
+  </section>
+
+  <main class="layout">
+    <p class="charts-note" id="charts-note">Charts reflect all SKUs</p>
+    <section class="grid charts">
+      <div class="card span-2">
+        <h2>Price distribution <small>current shelf price</small></h2>
+        <canvas id="chart-hist" height="120"></canvas>
+      </div>
+      <div class="card">
+        <h2>Promotional mix</h2>
+        <canvas id="chart-promo" height="120"></canvas>
+      </div>
+      <div class="card span-2">
+        <h2>Sub-categories <small>SKU count &amp; average price</small></h2>
+        <canvas id="chart-subs" height="150"></canvas>
+      </div>
+      <div class="card">
+        <h2>Top brands <small>by SKU count</small></h2>
+        <canvas id="chart-brands" height="150"></canvas>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Product catalogue</h2>
+      <div class="filters">
+        <select id="f-category" data-all="All aisles"><option value="">All aisles</option></select>
+        <select id="f-subcategory" data-all="All sub-categories"><option value="">All sub-categories</option></select>
+        <select id="f-brand" data-all="All brands"><option value="">All brands</option></select>
+        <select id="f-promo" data-all="All promos"><option value="">All promos</option></select>
+        <label class="chk"><input type="checkbox" id="f-special" /> On special only</label>
+        <input type="search" id="f-search" placeholder="Search name / brand…" />
+        <select id="f-sort">
+          <option value="price_asc">Price: low → high</option>
+          <option value="price_desc">Price: high → low</option>
+          <option value="discount_desc">Biggest discount</option>
+          <option value="unit_asc">Best unit value</option>
+          <option value="name_asc">Name A–Z</option>
+        </select>
+      </div>
+      <div class="table-wrap">
+        <table id="products">
+          <thead>
+            <tr>
+              <th>Product</th><th>Aisle</th><th>Brand</th><th>Sub-category</th>
+              <th class="num">Price</th><th class="num">Was</th><th class="num">Disc.</th>
+              <th class="num">Unit price</th><th>Promo</th><th>Avail.</th>
+            </tr>
+          </thead>
+          <tbody><tr><td colspan="10" class="empty">Loading…</td></tr></tbody>
+        </table>
+      </div>
+      <div class="pager">
+        <span id="pager-info">—</span>
+        <div class="pager-btns">
+          <button id="prev" disabled>← Prev</button>
+          <button id="next" disabled>Next →</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>Source data scraped from <a href="https://www.woolworths.com.au" target="_blank" rel="noopener">woolworths.com.au</a>.
+       Prices &amp; promos are a point-in-time snapshot and change frequently.</p>
+  </footer>
+
+  <script src="/static/vendor/chart.umd.js"></script>
+  <script src="/static/app.js"></script>
+</body>
+</html>
