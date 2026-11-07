@@ -1,12 +1,13 @@
-# Render Blueprint — deploys the live dashboard with a permanent *.onrender.com URL.
-# Native Python runtime (free-tier safe; no Docker needed). Ships the pre-scraped
-# SQLite snapshot (data/coles.db), so the deployed app has data immediately.
+# Render Blueprint — deploys the Woolworths dashboard with a permanent
+# *.onrender.com URL. Native Python runtime (free-tier safe). Ships the
+# pre-scraped SQLite snapshot (data/woolworths.db), so the deployed app has
+# data immediately (no browser/scraping needed on the host).
 #
 # Usage: push this repo to GitHub, then in Render choose "New > Blueprint" and
 # point it at this repo; Render reads this file automatically.
 services:
   - type: web
-    name: coles-intelligence
+    name: woolworths-intelligence
     runtime: python
     plan: free
     buildCommand: "pip install -r requirements.txt"

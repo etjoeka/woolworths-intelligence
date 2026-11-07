@@ -1,4 +1,4 @@
-# Coles Intelligence — container build for PaaS hosting (Render / Railway / Fly / etc.)
+# Woolworths Intelligence — container build for PaaS hosting (Render / Railway / Fly / etc.)
 # Ships with the pre-scraped SQLite snapshot so no browser/scraping is needed on the host.
 FROM python:3.12-slim
 
